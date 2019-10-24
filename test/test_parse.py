@@ -206,6 +206,7 @@ def test_cloudfront_entry(
     )
     assert isinstance(entry.timestamp, datetime.datetime) is True
     assert entry.timestamp == datetime.datetime(2014, 5, 23, 1, 13, 11, tzinfo=datetime.timezone.utc)
+    assert str(entry.user_agent) == 'Other / Windows / Other'
 
 
 def test_cloudfront_entry_broken_cookie(

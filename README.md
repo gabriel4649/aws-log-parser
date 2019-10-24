@@ -9,6 +9,7 @@ Parse AWS LoadBalancer and CloudFront logs into Python3 data classes.
 
 ```python
     >>> from aws_log_parser import log_parser, LogType
+    >>> log_data = ['''2014-05-23	01:13:11	FRA2	182	192.0.2.10	GET	d111111abcdef8.cloudfront.net	/view/my/file.html	200	www.displaymyfiles.com	Mozilla/4.0%20(compatible;%20MSIE%207.0;%20Windows%20NT%205.1)	-	zip=98101	RefreshHit	MRVMF7KydIvxMWfJIglgwHQwZsbG2IhRJ07sn9AkKUFSHS9EXAMPLE==	d111111abcdef8.cloudfront.net	http	-	0.001	-	-	-	RefreshHit	HTTP/1.1''']
     >>> entry = log_parser(log_data, LogType.CloudFront)[0]
     >>> entry
     CloudFrontWebDistributionLogEntry(
@@ -38,12 +39,16 @@ Parse AWS LoadBalancer and CloudFront logs into Python3 data classes.
         protocol_version='HTTP/1.1',
         fle_encrypted_fields='',
     )
+    >>> entry.timestamp
+    datetime.datetime(2014, 5, 23, 1, 13, 11, 0, tzinfo=datetime.timezone.utc)
     >>> entry.country
     'United States'
     >>> entry.hostname
     'rate-limited-proxy-66-249-91-41.google.com'
     >>> entry.network
     'Google'
+    >>> str(entry.user_agent)
+    'Other / Windows / Other'
 ```
 
 ## LoadBalancer Example
