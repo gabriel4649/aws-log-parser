@@ -55,42 +55,45 @@ Parse AWS LoadBalancer and CloudFront logs into Python3 data classes.
 
 ```python
     >>> from aws_log_parser import log_parser, LogType
+    >>> log_data = ['''h2 2018-07-02T22:23:00.186641Z app/my-loadbalancer/50dc6c495c0c9188 10.0.1.252:48160 10.0.0.66:9000 0.000 0.002 0.000 200 200 5 257 "GET https://10.0.2.105:773/ HTTP/2.0" "curl/7.46.0" ECDHE-RSA-AES128-GCM-SHA256 TLSv1.2 arn:aws:elasticloadbalancing:us-east-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067 "Root=1-58337327-72bd00b0343d75b906739c42" "-" "-" 1 2018-07-02T22:22:48.364000Z "redirect" "https://example.com:80/" "-"''']
     >>> entry = log_parser(log_data, LogType.LoadBalancer)[0]
     >>> entry
     LoadBalancerLogEntry(
         http_type=HttpType('h2'),
         timestamp=datetime.datetime(
-            2018, 11, 30, 22, 23, 0, 186641, tzinfo=datetime.timezone.utc,
+            2018, 7, 2, 22, 23, 0, 186641,
+            tzinfo=datetime.timezone.utc,
         ),
         elb='app/my-loadbalancer/50dc6c495c0c9188',
-        client=Host(ip='66.249.91.41', port=2817),
-        target=None,
+        client=Host(ip='10.0.1.252', port=48160),
+        target=Host(ip='10.0.0.66', port=9000),
         request_processing_time=0.000,
-        target_processing_time=0.001,
+        target_processing_time=0.002,
         response_processing_time=0.000,
-        elb_status_code=502,
-        target_status_code=None,
-        received_bytes=34,
-        sent_bytes=366,
+        elb_status_code=200,
+        target_status_code=200,
+        received_bytes=5,
+        sent_bytes=257,
         http_request=HttpRequest(
             method='GET',
-            url='http://www.example.com:80/',
+            url='https://10.0.2.105:773/',
             query={},
-            protocol='HTTP/1.1',
+            protocol='HTTP/2.0',
         ),
         user_agent=curl_user_agent_fixture,
-        ssl_cipher=None,
-        ssl_protocol=None,
+        ssl_cipher='ECDHE-RSA-AES128-GCM-SHA256',
+        ssl_protocol='TLSv1.2',
         target_group_arn='arn:aws:elasticloadbalancing:us-east-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067',
-        trace_id='Root=1-58337364-23a8c76965a2ef7629b185e3',
-        domain_name='api.example.com',
+        trace_id='Root=1-58337327-72bd00b0343d75b906739c42',
+        domain_name=None,
         chosen_cert_arn=None,
-        matched_rule_priority=0,
+        matched_rule_priority=1,
         request_creation_time=datetime.datetime(
-            2018, 11, 30, 22, 22, 48, 364000, tzinfo=datetime.timezone.utc,
+            2018, 7, 2, 22, 22, 48, 364000,
+            tzinfo=datetime.timezone.utc,
         ),
-        actions_executed=['waf', 'forward'],
-        redirect_url=None,
+        actions_executed=['redirect'],
+        redirect_url='https://example.com:80/',
         error_reason=None,
     )
 ```
