@@ -11,6 +11,11 @@ repos:
   - id: flake8
   - id: trailing-whitespace
 
+- repo: https://github.com/pre-commit/mirrors-mypy
+  rev: ''  # Use the sha / tag you want to point at
+  hooks:
+  - id: mypy
+
 - repo: https://github.com/pre-commit/mirrors-autopep8
   rev: v1.4.4
   hooks:
