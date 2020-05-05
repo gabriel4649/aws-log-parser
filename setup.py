@@ -18,8 +18,7 @@ setup(
         'aws_log_parser',
     ],
     install_requires=[
-        'user-agents==2.0',
-        'geoip2==2.9.0',
+        'user-agents==2.0'
     ],
     setup_requires=[
         'pytest-runner',

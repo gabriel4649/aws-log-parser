@@ -7,19 +7,11 @@ import urllib.parse
 from dataclasses import dataclass
 from http import cookies
 
-import geoip2.database
 import user_agents
 
 from .exceptions import UnknownHttpType
 
 logger = logging.getLogger(__name__)
-
-
-try:
-    geoip_reader = geoip2.database.Reader('./GeoLite2-Country.mmdb')
-except FileNotFoundError as exc:
-    logger.warn(str(exc))
-    geoip_reader = None
 
 
 @functools.lru_cache(maxsize=16384)
@@ -79,14 +71,6 @@ class IpAddressField(LogField):
     @property
     def hostname(self):
         return resolve_ip(self.value)
-
-    @property
-    def country(self):
-        try:
-            match = geoip_reader.country(self.value)
-        except geoip2.errors.AddressNotFoundError:
-            return None
-        return match.country.name
 
 
 @dataclass

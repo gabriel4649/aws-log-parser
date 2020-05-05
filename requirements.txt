@@ -3,7 +3,6 @@ attrs==19.1.0
 certifi==2019.6.16
 chardet==3.0.4
 coverage==4.5.3
-geoip2==2.9.0
 idna==2.8
 importlib-metadata==0.18
 maxminddb==1.4.1

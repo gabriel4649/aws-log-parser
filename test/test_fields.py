@@ -20,7 +20,6 @@ from aws_log_parser.fields import (
     UrlQueryField,
     UrlQuotedField,
     UserAgentField,
-    geoip_reader,
 )
 from aws_log_parser.models import (
     Host,
@@ -117,9 +116,3 @@ def test_cookie_field(cookie_zip_code):
 def test_list_field():
     field = ListField('1,2')
     assert field.parsed == ['1', '2']
-
-
-@pytest.mark.skipif(geoip_reader is None, reason="geoip database is missing")
-def test_ip_address_field_country():
-    field = IpAddressField('8.8.8.8')
-    assert field.country == 'United States'
